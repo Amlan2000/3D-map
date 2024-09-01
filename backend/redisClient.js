@@ -1,8 +1,12 @@
-// redisClient.js
 const redis = require('redis');
 
-// Create a Redis client
-const redisClient = redis.createClient();
+// Create a Redis client with connection options
+const redisClient = redis.createClient({
+  socket: {
+    host: 'localhost',  // Change this if Redis is on a different host
+    port: 6379          // Change this if Redis is running on a different port
+  }
+});
 
 // Connect to Redis
 redisClient.connect()
