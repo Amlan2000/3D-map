@@ -1,0 +1,71 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+    padding: 20px;
+  }
+  
+  .snaptrude-logo {
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 40px;
+  }
+  
+  .login-heading {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #8a8282;
+    text-align: center;
+  }
+  
+  .google-button {
+    display: flex;
+    align-items: center;
+    background-color: #4c6a99;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 80%;
+    max-width: 300px;
+    justify-content: center;
+  }
+  
+  .google-button:hover {
+    background-color: #357ae8;
+  }
+  
+  .google-icon {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Media query for smaller screens */
+  @media (max-width: 600px) {
+    .snaptrude-logo {
+      width: 70%;
+      margin-bottom: 30px;
+    }
+  
+    .login-heading {
+      font-size: 18px;
+    }
+  
+    .google-button {
+      padding: 10px 15px;
+      font-size: 14px;
+    }
+  
+    .google-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  
