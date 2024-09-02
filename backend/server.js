@@ -1,17 +1,20 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const passport = require('passport');
-const session = require('express-session');
-const path = require('path');
-const redisClient = require('./redisClient');
-require('./auth'); // Ensure this file sets up passport strategies
-
+const passport= require('passport')
 const app = express();
+const redisClient = require('./redisClient');
+require('./passport');
+const session= require('express-session')
+const path= require('path')
+const cookieSession= require('cookie-session')
+const authRoute= require('./Routes/auth')
+
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'client')));
+// app.use(express.static(path.join (__dirname,'client')))
 
 const uri = "mongodb+srv://amlan:hellotest@cluster0.4lk4a.mongodb.net/project?retryWrites=true&w=majority&appName=Cluster0";
 mongoose.connect(uri)
@@ -21,29 +24,21 @@ mongoose.connect(uri)
 const mapCaptureSchema = new mongoose.Schema({
   imageUrl: String,
   coordinates: Object,
-  zoom: Number,
+  zoom:Number,
   timestamp: { type: Date, default: Date.now },
 });
 
 mapCaptureSchema.index({ "coordinates.lat": 1, "coordinates.lng": 1 });
 
+// Specify the collection name explicitly
 const MapCapture = mongoose.model('MapCapture', mapCaptureSchema, 'map');
 
-app.use(session({
-  secret: 'dog',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.post('/save', async (req, res) => {
   const { imageUrl, coordinates, zoom } = req.body;
 
   try {
-    const newCapture = new MapCapture({ imageUrl, coordinates, zoom });
+    const newCapture = new MapCapture({imageUrl,coordinates,zoom});
     await newCapture.save();
     res.status(201).send('Map state saved successfully');
   } catch (err) {
@@ -51,6 +46,7 @@ app.post('/save', async (req, res) => {
     res.status(500).send('Server error: Unable to save map');
   }
 });
+
 
 app.get('/captures', async (req, res) => {
   try {
@@ -67,13 +63,16 @@ app.get('/captures', async (req, res) => {
 
 app.get('/top-captures', async (req, res) => {
   try {
+    // First, check if the data is available in the cache
     const cacheKey = 'top_captures';
     const cachedData = await redisClient.get(cacheKey);
 
     if (cachedData) {
+      // If cached data is found, return it
       return res.json(JSON.parse(cachedData));
     }
 
+    // If data is not found in the cache, fetch it from the database
     const topRegions = await MapCapture.aggregate([
       {
         $group: {
@@ -92,8 +91,10 @@ app.get('/top-captures', async (req, res) => {
       }
     ]);
 
+    // Store the fetched data in the cache with an expiration time
     await redisClient.setEx(cacheKey, 3600, JSON.stringify(topRegions)); // Cache for 1 hour
 
+    // Return the fetched data
     res.json(topRegions);
   } catch (err) {
     console.error('Error fetching top captures:', err);
@@ -101,32 +102,77 @@ app.get('/top-captures', async (req, res) => {
   }
 });
 
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'index.html'));
-});
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['email', 'profile'] })
+//SSO
+
+// function isLoggedIn(req,res,next)
+// {
+//     req.user? next():res.sendStatus(401);
+// }
+
+// app.get('/'),(req,res)=>{
+//   res.sendFile('index.html');
+
+// }
+
+// app.use(passport.session());
+// app.use(session({
+//   secret: 'dog',
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: { secure: false }
+// }))
+
+// app.use(passport.initialize());
+
+// app.get('/auth/google',
+//   passport.authenticate('google', { scope:
+//       [ 'email', 'profile' ] }
+// ));
+
+// app.get( '/auth/google/callback',
+//     passport.authenticate( 'google', {
+//         successRedirect: '/auth/protected',
+//         failureRedirect: '/auth/google/failure'
+// }));
+// app.get('/auth/google/failure'),(req,res)=>{
+//   res.send("Something went wrong!")
+// }
+
+// app.get('/auth/protected'),isLoggedIn,(req,res)=>{
+// let name= req.user.displayName;
+//   res.send("hello world!"+name)
+// }
+
+
+
+
+
+
+// app.listen(5000, () => console.log('Server started on port 5000'));
+
+
+app.use(
+	cookieSession({
+		name: "session",
+		keys: ["cyberwolve"],
+		maxAge: 24 * 60 * 60 * 100,
+	})
 );
 
-app.get('/auth/google/callback',
-  passport.authenticate('google', {
-    successRedirect: '/auth/protected',
-    failureRedirect: '/auth/google/failure'
-  })
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		methods: "GET,POST,PUT,DELETE",
+		credentials: true,
+	})
 );
 
-app.get('/auth/google/failure', (req, res) => {
-  res.send("Something went wrong!");
-});
+app.use("/auth", authRoute);
 
-app.get('/auth/protected', isLoggedIn, (req, res) => {
-  let name = req.user.displayName;
-  res.send("hello world! " + name);
-});
-
-app.listen(5000, () => console.log('Server started on port 5000'));
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Listenting on port ${port}...`));
