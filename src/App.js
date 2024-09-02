@@ -53,7 +53,10 @@ function App() {
 
   return (
     <Routes>
-       	<Route exact path="/" element={user ? <Home user={user} /> : <Navigate to="/login" />}/>
+       	<Route exact path="/" element={user ? <div>
+              <MapComponent onCapture={(imageUrl) => setMapImage(imageUrl)} />
+              {mapImage && <Cuboid mapImageUrl={mapImage} />}
+            </div> : <Navigate to="/login" />}/>
 				<Route exact path="/login" element={user ? <Navigate to="/" /> : <Login />}/>
         {/* <Route path="/map">
           {isAuthenticated ? (
