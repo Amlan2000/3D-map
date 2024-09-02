@@ -4,6 +4,7 @@ const mapCaptureSchema = new mongoose.Schema({
   imageUrl: String,
   coordinates: Object,
   zoom: Number,
+  email: String,
   timestamp: { type: Date, default: Date.now },
 });
 

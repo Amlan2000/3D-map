@@ -2,10 +2,10 @@ const MapCapture = require('../models/mapCapture');
 const redisClient = require('../redisClient');
 
 exports.saveCapture = async (req, res) => {
-  const { imageUrl, coordinates, zoom } = req.body;
+  const { imageUrl, coordinates, zoom,email } = req.body;
 
   try {
-    const newCapture = new MapCapture({ imageUrl, coordinates, zoom });
+    const newCapture = new MapCapture({ imageUrl, coordinates, zoom, email });
     await newCapture.save();
     res.status(201).send('Map state saved successfully');
   } catch (err) {
@@ -61,3 +61,20 @@ exports.getTopCaptures = async (req, res) => {
     res.status(500).send('Server error: Unable to fetch top captures');
   }
 };
+
+
+
+exports.getCapturesByEmail = async (req, res) => {
+    const { email } = req.params;
+  
+    try {
+      const captures = await MapCapture.find({ email: email });
+      if (!captures || captures.length === 0) {
+        return res.status(404).send('No captures found for this email');
+      }
+      res.status(200).json(captures);
+    } catch (err) {
+      console.error('Error fetching captures by email:', err);
+      res.status(500).send('Server error: Unable to fetch captures by email');
+    }
+  };
