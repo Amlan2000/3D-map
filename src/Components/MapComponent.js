@@ -50,7 +50,7 @@ const MapComponent = (userDetails) => {
         setTextureUrl(objectURL); // Set the captured image as texture
 
                // Send the captured image URL and coordinates to the backend
-               await axios.post('http://localhost:5000/save', {
+               await axios.post('http://localhost:5000/map/save', {
                 imageUrl,
                 coordinates: { lat, lng },
                 zoom
