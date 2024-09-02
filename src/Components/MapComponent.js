@@ -4,7 +4,7 @@ import BabylonScene from './3DCuboid';
 import axios from 'axios';
 
 const MapComponent = (userDetails) => {
-  const { isLoaded } = useLoadScript({ googleMapsApiKey: 'AIzaSyCH5Y_nerXn_ssQ8SvG3mz3IcOKKh9amS0' });
+  const { isLoaded } = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
   const mapRef = useRef(null);
   const [textureUrl, setTextureUrl] = useState(null);
 
