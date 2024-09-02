@@ -22,8 +22,8 @@ mongoose.connect(uri)
 app.use(
   cookieSession({
     name: "session",
-    keys: ["cyberwolve"],
-    maxAge: 24 * 60 * 60 * 100,
+    keys: ["test"],
+    maxAge: 10000,
   })
 );
 
