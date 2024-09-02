@@ -1,4 +1,4 @@
-/* Center heading and buttons, and use flexbox for the layout */
+
 .container {
     display: flex;
     flex-direction: column;

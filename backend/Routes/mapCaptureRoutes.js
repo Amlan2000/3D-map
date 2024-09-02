@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const mapCaptureController = require('../controllers/mapCaptureController');
+const mapCaptureService = require('../service/mapCaptureService');
 
-router.post('/save', mapCaptureController.saveCapture);
-router.get('/captures', mapCaptureController.getCaptures);
-router.get('/top-captures', mapCaptureController.getTopCaptures);
-router.get('/by-email/:email', mapCaptureController.getCapturesByEmail); // New route
+router.post('/save', mapCaptureService.saveCapture);
+router.get('/captures', mapCaptureService.getCaptures);
+router.get('/top-captures', mapCaptureService.getTopCaptures);
+router.get('/by-email/:email', mapCaptureService.getCapturesByEmail);
 
 
 module.exports = router;
