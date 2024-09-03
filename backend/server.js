@@ -32,7 +32,7 @@ app.use(passport.session());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://lighthearted-bombolone-e9067a.netlify.app",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
