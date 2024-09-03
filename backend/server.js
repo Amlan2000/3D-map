@@ -11,7 +11,6 @@ const app = express();
 require('./passport');
 require('./redisClient');
 
-app.use(cors());
 app.use(express.json());
 
 const uri = process.env.MONGODB_URI || "your_mongo_uri_here";
