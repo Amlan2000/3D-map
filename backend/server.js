@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -8,8 +7,16 @@ const authRoute = require('./Routes/auth');
 const mapCaptureRoutes = require('./Routes/mapCaptureRoutes');
 
 const app = express();
+require('dotenv').config();
 require('./passport');
 require('./redisClient');
+
+// CORS configuration
+app.use(cors({
+  origin: process.env.CLIENT_URL,  // Make sure this matches http://localhost:3000
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true,  // Allow credentials (cookies) to be sent
+}));
 
 app.use(express.json());
 
@@ -23,19 +30,13 @@ app.use(
     name: "session",
     keys: ["test"],
     maxAge: 10000,
+    secure: true,  // Ensure the cookie is only sent over HTTPS
+    sameSite: 'None'  // Allow cross-site requests
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
-  })
-);
 
 app.use("/auth", authRoute);
 app.use("/map", mapCaptureRoutes);
