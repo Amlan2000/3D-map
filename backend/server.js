@@ -1,4 +1,6 @@
 require('dotenv').config();
+require('./passport');
+require('./redisClient');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -6,10 +8,9 @@ const passport = require('passport');
 const cookieSession = require('cookie-session');
 const authRoute = require('./Routes/auth');
 const mapCaptureRoutes = require('./Routes/mapCaptureRoutes');
-
 const app = express();
-require('./passport');
-require('./redisClient');
+
+app.enable('trust proxy');
 
 app.use(
   cookieSession({
