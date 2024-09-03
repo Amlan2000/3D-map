@@ -11,11 +11,10 @@ require('dotenv').config();
 require('./passport');
 require('./redisClient');
 
-// CORS configuration
 app.use(cors({
-  origin: process.env.CLIENT_URL,  // Make sure this matches http://localhost:3000
+  origin: process.env.CLIENT_URL, 
   methods: "GET,POST,PUT,DELETE",
-  credentials: true,  // Allow credentials (cookies) to be sent
+  credentials: true, 
 }));
 
 app.use(express.json());
