@@ -11,7 +11,15 @@ const app = express();
 require('./passport');
 require('./redisClient');
 
-app.use(cors());
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["test"],
+    maxAge: 10000,
+    secure: process.env.NODE_ENV === 'production', // only send cookies over HTTPS
+    sameSite: 'none' // to ensure cookies are sent in cross-site requests
+  })
+);
 app.use(express.json());
 
 const uri = process.env.MONGODB_URI || "your_mongo_uri_here";
@@ -19,24 +27,19 @@ mongoose.connect(uri)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('Failed to connect to MongoDB Atlas', err));
 
-app.use(
-  cookieSession({
-    name: "session",
-    keys: ["test"],
-    maxAge: 10000,
-  })
-);
+
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.CLIENT_URL, // Set this to your frontend URL
     methods: "GET,POST,PUT,DELETE",
-    credentials: true,
+    credentials: true, // Allow credentials (cookies) to be sent
   })
 );
+
 
 app.use("/auth", authRoute);
 app.use("/map", mapCaptureRoutes);
