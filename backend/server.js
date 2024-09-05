@@ -16,9 +16,10 @@ app.use(
   cookieSession({
     name: "session",
     keys: ["test"],
-    maxAge: 10000,
+    maxAge: 24 * 60 * 60 * 1000,
     secure: process.env.NODE_ENV === 'production', // only send cookies over HTTPS
-    sameSite: 'none' // to ensure cookies are sent in cross-site requests
+    sameSite: 'none', // to ensure cookies are sent in cross-site requests
+    secure:true
   })
 );
 app.use(express.json());
