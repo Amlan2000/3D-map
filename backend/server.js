@@ -21,6 +21,14 @@ app.use(
     secure: 'true'
   })
 );
+app.options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(200); // Send OK status for OPTIONS
+});
+
 
 app.use(express.json());
 
