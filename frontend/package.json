@@ -2,6 +2,7 @@
   "name": "snaptrude-map",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://snaptrude-map-api.vercel.app",
   "dependencies": {
     "@babylonjs/core": "^7.23.0",
     "@babylonjs/loaders": "^7.23.0",
