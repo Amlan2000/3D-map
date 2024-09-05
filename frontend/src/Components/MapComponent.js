@@ -50,7 +50,7 @@ const MapComponent = (userDetails) => {
         setTextureUrl(objectURL); // Set the captured image as texture
 
         // Send the captured image URL and coordinates to the backend
-        await axios.post('https://snaptrude-map-api.onrender.com/map/save', {
+        await axios.post(`${REACT_APP_API_URL}/map/save`, {
           imageUrl,
           coordinates: { lat, lng },
           zoom,

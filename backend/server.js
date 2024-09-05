@@ -16,9 +16,9 @@ app.use(
   cookieSession({
     name: "session",
     keys: ["test"],
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    maxAge: 24 * 60 * 60 * 1000,
     sameSite: 'None', // Important for cross-site cookies
-    secure: process.env.NODE_ENV === 'production', // Only HTTPS cookies in production
+    secure: 'true'
   })
 );
 
@@ -34,7 +34,7 @@ app.use(passport.session());
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL, // Frontend URL (Netlify URL)
+    origin: process.env.CLIENT_URL,
     methods: "GET,POST,PUT,DELETE",
     credentials: true, // Allow sending cookies with requests
   })
