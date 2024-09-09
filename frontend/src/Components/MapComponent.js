@@ -50,12 +50,26 @@ const MapComponent = (userDetails) => {
         setTextureUrl(objectURL); // Set the captured image as texture
 
         // Send the captured image URL and coordinates to the backend
-        await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
-          imageUrl,
-          coordinates: { lat, lng },
-          zoom,
-          email: user.email
-        });
+        // await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
+        //   imageUrl,
+        //   coordinates: { lat, lng },
+        //   zoom,
+        //   email: user.email
+        // });
+           // Get the JWT token from localStorage
+      const token = localStorage.getItem('token');
+
+      // Send the captured image URL and coordinates to the backend
+      await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
+        imageUrl,
+        coordinates: { lat, lng },
+        zoom,
+        email: user.email
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the JWT token in the request
+        }
+      });
 
       } catch (error) {
         console.error('Failed to capture the map image', error);
