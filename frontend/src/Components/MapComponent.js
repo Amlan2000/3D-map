@@ -4,7 +4,7 @@ import BabylonScene from './3DCuboid';
 import axios from 'axios';
 import './MapComponent.css';
 
-const MapComponent = (userDetails) => {
+const MapComponent = () => {
   const { isLoaded } = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
   const mapRef = useRef(null);
   const [textureUrl, setTextureUrl] = useState(null);
@@ -13,10 +13,9 @@ const MapComponent = (userDetails) => {
     mapRef.current = map;
   };
 
-  const user = userDetails.user;
 
   const logout = () => {
-    window.open(`${process.env.REACT_APP_API_URL}/auth/logout`, "_self");
+    
   };
 
   const captureMap = async () => {
@@ -37,7 +36,7 @@ const MapComponent = (userDetails) => {
         // Create a link element
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'captured-map.png'; // Specify the filename
+        link.download = 'captured-map.png'; 
 
         // Append the link to the document and trigger a click
         document.body.appendChild(link);
@@ -45,16 +44,15 @@ const MapComponent = (userDetails) => {
 
         // Clean up and remove the link
         document.body.removeChild(link);
-        URL.revokeObjectURL(link.href); // Clean up the object URL
+        URL.revokeObjectURL(link.href);
 
-        setTextureUrl(objectURL); // Set the captured image as texture
+        setTextureUrl(objectURL); 
 
-        // Send the captured image URL and coordinates to the backend
         await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
           imageUrl,
           coordinates: { lat, lng },
-          zoom,
-          email: user.email
+          zoom
+          // email: user.email
         });
 
       } catch (error) {
