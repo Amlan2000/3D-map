@@ -3,14 +3,12 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import BabylonScene from '../3DCuboid';
 import axios from 'axios';
 import './MapComponent.css';
-import { useNavigate } from 'react-router-dom';
 
 const MapComponent = () => {
   const { isLoaded } = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
   const mapRef = useRef(null);
   const [textureUrl, setTextureUrl] = useState(null);
-  const navigate = useNavigate();
-  const userEmail = localStorage.getItem("email"); // Assuming email is stored in localStorage
+  const userEmail = localStorage.getItem("email");
 
   const onLoad = (map) => {
     mapRef.current = map;
@@ -31,12 +29,10 @@ const MapComponent = () => {
         const blob = await response.blob();
         const objectURL = URL.createObjectURL(blob);
 
-        // Create a link element
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = 'captured-map.png'; 
 
-        // Append the link to the document and trigger a click
         document.body.appendChild(link);
         link.click();
 
@@ -50,7 +46,7 @@ const MapComponent = () => {
           imageUrl,
           coordinates: { lat, lng },
           zoom,
-          email: userEmail // Add user email to the request
+          email: userEmail 
         });
 
       } catch (error) {
@@ -64,7 +60,6 @@ const MapComponent = () => {
       <h2 className="heading">3D Conversion Page</h2>
       <div className="button-container">
         <button onClick={captureMap} className="action-button">Capture Map</button>
-        {/* <button onClick={handleLogout} className="action-button">Log Out</button> */}
       </div>
       <div className="content-container">
         <div className="map-container">
