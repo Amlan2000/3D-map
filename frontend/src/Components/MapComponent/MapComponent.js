@@ -9,7 +9,8 @@ const MapComponent = () => {
   const { isLoaded } = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
   const mapRef = useRef(null);
   const [textureUrl, setTextureUrl] = useState(null);
-  const navigate= useNavigate();
+  const navigate = useNavigate();
+  const userEmail = localStorage.getItem("email"); // Assuming email is stored in localStorage
 
   const onLoad = (map) => {
     mapRef.current = map;
@@ -48,8 +49,8 @@ const MapComponent = () => {
         await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
           imageUrl,
           coordinates: { lat, lng },
-          zoom
-          // email: user.email
+          zoom,
+          email: userEmail // Add user email to the request
         });
 
       } catch (error) {

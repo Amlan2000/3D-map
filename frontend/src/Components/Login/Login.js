@@ -37,7 +37,7 @@ const Login = () => {
       if (response.ok) {
         const result = await response.json();
         localStorage.setItem("token", result.token);
-        console.log(result);
+        localStorage.setItem("email", formData.email); // Save the email in local storage
         navigate("/map");
       } else {
         // Handle invalid credentials or other errors
