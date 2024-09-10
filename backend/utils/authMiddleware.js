@@ -18,7 +18,6 @@ function authenticateToken(req,res,next)
     }
 
     jwt.verify(token,secretKey,(err,user)=>{
-        // console.log("secret key and token: "+ secretKey+"  "+ token);
         if(err)
         {
             return res.status(403).json({message:"Forbidden: Invalid token "});

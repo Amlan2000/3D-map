@@ -10,7 +10,6 @@ function generateToken (user)
         
     }
 
-    // console.log("secret key in generate token: "+ secretKey)
     return jwt.sign(payload,secretKey,{expiresIn:"1h"});
 }
 
