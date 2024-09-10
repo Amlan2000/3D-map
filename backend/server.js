@@ -61,6 +61,7 @@ const signUpRoute= require("./Routes/signup");
 const bodyParser= require("body-parser")
 const mongoose = require('mongoose');
 const cors = require('cors');
+const loginRoute = require("./Routes/login")
 
 
 const uri = process.env.MONGODB_URI || "your_mongo_uri_here";
@@ -76,5 +77,7 @@ app.use(cors());
 
 
 app.use("/user",signUpRoute);
+app.use("/auth",loginRoute);
+
 
 app.listen(port, () => console.log(`Listening on port ${port}...`));
