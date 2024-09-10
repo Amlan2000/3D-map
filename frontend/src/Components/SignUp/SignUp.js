@@ -25,9 +25,6 @@ const handleInputChange =(event)=>{
 const handleSubmit= async(e)=>{
 
   e.preventDefault();
-  console.log("email",formData.email);
-  console.log("name",formData.name);
-  console.log("password",formData.password);
 
   try{
     console.log(`${process.env.REACT_APP_API_URL}/user/register`)
