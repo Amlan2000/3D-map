@@ -1,22 +1,18 @@
 import React, { useRef, useState } from 'react';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-import BabylonScene from './3DCuboid';
+import BabylonScene from '../3DCuboid';
 import axios from 'axios';
 import './MapComponent.css';
+import { useNavigate } from 'react-router-dom';
 
-const MapComponent = (userDetails) => {
+const MapComponent = () => {
   const { isLoaded } = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
   const mapRef = useRef(null);
   const [textureUrl, setTextureUrl] = useState(null);
+  const navigate= useNavigate();
 
   const onLoad = (map) => {
     mapRef.current = map;
-  };
-
-  const user = userDetails.user;
-
-  const logout = () => {
-    window.open(`${process.env.REACT_APP_API_URL}/auth/logout`, "_self");
   };
 
   const captureMap = async () => {
@@ -37,7 +33,7 @@ const MapComponent = (userDetails) => {
         // Create a link element
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'captured-map.png'; // Specify the filename
+        link.download = 'captured-map.png'; 
 
         // Append the link to the document and trigger a click
         document.body.appendChild(link);
@@ -45,31 +41,16 @@ const MapComponent = (userDetails) => {
 
         // Clean up and remove the link
         document.body.removeChild(link);
-        URL.revokeObjectURL(link.href); // Clean up the object URL
+        URL.revokeObjectURL(link.href);
 
-        setTextureUrl(objectURL); // Set the captured image as texture
+        setTextureUrl(objectURL); 
 
-        // Send the captured image URL and coordinates to the backend
-        // await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
-        //   imageUrl,
-        //   coordinates: { lat, lng },
-        //   zoom,
-        //   email: user.email
-        // });
-           // Get the JWT token from localStorage
-      const token = localStorage.getItem('token');
-
-      // Send the captured image URL and coordinates to the backend
-      await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
-        imageUrl,
-        coordinates: { lat, lng },
-        zoom,
-        email: user.email
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include the JWT token in the request
-        }
-      });
+        await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
+          imageUrl,
+          coordinates: { lat, lng },
+          zoom
+          // email: user.email
+        });
 
       } catch (error) {
         console.error('Failed to capture the map image', error);
@@ -82,7 +63,7 @@ const MapComponent = (userDetails) => {
       <h2 className="heading">3D Conversion Page</h2>
       <div className="button-container">
         <button onClick={captureMap} className="action-button">Capture Map</button>
-        <button onClick={logout} className="action-button">Log Out</button>
+        {/* <button onClick={handleLogout} className="action-button">Log Out</button> */}
       </div>
       <div className="content-container">
         <div className="map-container">

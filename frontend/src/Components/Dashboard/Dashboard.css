@@ -1,0 +1,13 @@
+.snaptrude-logo {
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 40px;
+  }
+  
+  .dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30vh;
+
+  }
