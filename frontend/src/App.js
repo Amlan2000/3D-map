@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Header from "./Components/Header";
+import Header from "./Components/Header/Header";
 import { Routes, Route } from "react-router-dom";
 import Login from "./Components/Login/Login";
-import Dashboard from "./Components/Dashboard";
+import Dashboard from "./Components/Dashboard/Dashboard";
 import SignUp from "./Components/SignUp/SignUp";
 import MapComponent from "./Components/MapComponent/MapComponent";
 import Cuboid from "./Components/3DCuboid";

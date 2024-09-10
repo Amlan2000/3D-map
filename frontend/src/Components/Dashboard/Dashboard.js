@@ -1,5 +1,5 @@
 import React from 'react'
-import SnaptrudeLogo from "./Images/snap.svg"
+import SnaptrudeLogo from "../Images/snap.svg"
 import "./Dashboard.css"; // Import the CSS file
 
 
