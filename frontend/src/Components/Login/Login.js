@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import "./Login.css";
 
@@ -10,6 +10,7 @@ const Login = () => {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -21,6 +22,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
@@ -47,6 +49,7 @@ const Login = () => {
       console.log(error.message);
       setErrorMessage("An error occurred while logging in.");
     } finally {
+      setLoading(false); // Set loading to false
       setFormData({
         email: "",
         password: ""
@@ -79,8 +82,15 @@ const Login = () => {
             onChange={handleInputChange}
           />
         </Form.Group>
-        <Button variant="dark" type="submit" className="w-100">
-          Login
+        <Button variant="dark" type="submit" className="w-100" disabled={loading}>
+          {loading ? (
+            <>
+              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+              <span className="sr-only">Loading...</span>
+            </>
+          ) : (
+            "Login"
+          )}
         </Button>
       </Form>
     </div>
