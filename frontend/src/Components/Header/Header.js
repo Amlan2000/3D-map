@@ -25,7 +25,7 @@ const Header = () => {
           <Nav className="ml-auto">
             {!isMapPage && token && (
               <Nav.Link as={Link} to="/">
-                Dashboard
+                Home
               </Nav.Link>
             )}
             {token ? (
@@ -35,7 +35,7 @@ const Header = () => {
             ) : (
               <>
                 <Nav.Link as={Link} to="/">
-                  Dashboard
+                  Home
                 </Nav.Link>
                 <Nav.Link as={Link} to="/login">
                   Login
