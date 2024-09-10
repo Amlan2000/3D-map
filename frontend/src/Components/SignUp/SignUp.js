@@ -30,7 +30,8 @@ const handleSubmit= async(e)=>{
   console.log("password",formData.password);
 
   try{
-    const response = await fetch(`${process.env.REACT_CLIENT_API_URL}/user/register`,{
+    console.log(`${process.env.REACT_APP_API_URL}/user/register`)
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/user/register`,{
       method:"POST",
       headers:{
         "Content-Type":"application/json"
