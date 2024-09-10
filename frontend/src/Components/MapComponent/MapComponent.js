@@ -1,21 +1,18 @@
 import React, { useRef, useState } from 'react';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-import BabylonScene from './3DCuboid';
+import BabylonScene from '../3DCuboid';
 import axios from 'axios';
 import './MapComponent.css';
+import { useNavigate } from 'react-router-dom';
 
 const MapComponent = () => {
   const { isLoaded } = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
   const mapRef = useRef(null);
   const [textureUrl, setTextureUrl] = useState(null);
+  const navigate= useNavigate();
 
   const onLoad = (map) => {
     mapRef.current = map;
-  };
-
-
-  const logout = () => {
-    
   };
 
   const captureMap = async () => {
@@ -66,7 +63,7 @@ const MapComponent = () => {
       <h2 className="heading">3D Conversion Page</h2>
       <div className="button-container">
         <button onClick={captureMap} className="action-button">Capture Map</button>
-        <button onClick={logout} className="action-button">Log Out</button>
+        {/* <button onClick={handleLogout} className="action-button">Log Out</button> */}
       </div>
       <div className="content-container">
         <div className="map-container">

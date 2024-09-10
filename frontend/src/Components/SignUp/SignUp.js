@@ -39,7 +39,7 @@ const handleSubmit= async(e)=>{
     })
     const result= await response.json();
       console.log(result);
-      navigate("/login");
+      navigate("/login")
 
   } catch(error){
       console.log(error.message);
