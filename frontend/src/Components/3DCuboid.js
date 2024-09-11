@@ -58,7 +58,7 @@ const BabylonScene = ({ textureUrl }) => {
     };
   }, [textureUrl]);
 
-  console.log("texture: "+ textureUrl+" engine"+engine);
+  console.log("texture: "+ textureUrl);
 
   return <canvas ref={canvasRef} style={{ width: "100%", height: "100%" }} />;
 };
