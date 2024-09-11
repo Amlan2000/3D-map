@@ -24,7 +24,7 @@ const BabylonScene = ({ textureUrl }) => {
 
       // Add a light to the scene
       const light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
-      light.intensity = 1.7; // Adjust intensity if needed
+      light.intensity = 2.0; // Adjust intensity if needed
 
       // Create a 3D cuboid (box)
       const box = BABYLON.MeshBuilder.CreateBox("box", { size: 2 }, scene);
