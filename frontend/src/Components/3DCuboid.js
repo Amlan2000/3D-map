@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as BABYLON from '@babylonjs/core';
 
 const BabylonScene = ({ textureUrl }) => {
+  console.log("texture url: "+ textureUrl);
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -28,14 +29,17 @@ const BabylonScene = ({ textureUrl }) => {
 
       // Create a 3D cuboid (box)
       const box = BABYLON.MeshBuilder.CreateBox("box", { size: 2 }, scene);
-
+      
       // Apply the captured map image as a texture if available
       if (textureUrl) {
         const material = new BABYLON.StandardMaterial("boxMat", scene);
         material.diffuseTexture = new BABYLON.Texture(textureUrl, scene);
         box.material = material;
+
+        console.log("Material "+ material+" diffuse"+ material.diffuseTexture);
       }
 
+      console.log("Canvas "+canvas+" engine"+engine+" Scene", scene);
       return scene;
     };
 
@@ -54,7 +58,9 @@ const BabylonScene = ({ textureUrl }) => {
     };
   }, [textureUrl]);
 
-  return <canvas ref={canvasRef} style={{ width: "100%", height: "400px" }} />;
+  console.log("texture: "+ textureUrl+" engine"+engine);
+
+  return <canvas ref={canvasRef} style={{ width: "100%", height: "100%" }} />;
 };
 
 export default BabylonScene;

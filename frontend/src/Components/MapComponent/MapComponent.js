@@ -40,6 +40,7 @@ const MapComponent = () => {
         document.body.removeChild(link);
         URL.revokeObjectURL(link.href);
 
+        console.log("objecturl: "+ objectURL);
         setTextureUrl(objectURL); 
 
         await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
