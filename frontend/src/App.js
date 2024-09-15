@@ -6,30 +6,29 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import SignUp from "./Components/SignUp/SignUp";
 import MapComponent from "./Components/MapComponent/MapComponent";
 import Cuboid from "./Components/3DCuboid";
+import ProtectComponent from "./Components/ProtectComponent";
 
 const App = () => {
   const [mapImage, setMapImage] = useState(null);
 
   return (
     <>
-      <Header></Header>
+      <Header />
 
       <Routes>
-        <Route path="/" element={<Dashboard></Dashboard>}> </Route>
-        <Route path="/login" element={<Login></Login>}>
-          {" "}
-        </Route>
-        <Route path="/register" element={<SignUp></SignUp>}>
-          {" "}
-        </Route>
-        {/* <Route path="/dashboard" element={<Dashboard></Dashboard>}> </Route> */}
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<SignUp />} />
+        {/* Protect the /map route */}
         <Route
           path="/map"
           element={
-            <div>
-              <MapComponent onCapture={(imageUrl) => setMapImage(imageUrl)} />
-              {mapImage && <Cuboid mapImageUrl={mapImage} />}
-            </div>
+            <ProtectComponent>
+              <div>
+                <MapComponent onCapture={(imageUrl) => setMapImage(imageUrl)} />
+                {mapImage && <Cuboid mapImageUrl={mapImage} />}
+              </div>
+            </ProtectComponent>
           }
         />
       </Routes>
