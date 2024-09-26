@@ -9,8 +9,8 @@ const Dashboard = () => {
     <div className="dashboard-container">
         <img
         src={HomeLogo}
-        alt="Snaptrude Logo"
-        className="snaptrude-logo"
+        alt="Home Logo"
+        className="home-logo"
       />
     </div>
   )
