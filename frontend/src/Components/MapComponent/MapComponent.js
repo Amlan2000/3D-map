@@ -1,11 +1,13 @@
-import React, { useRef, useState } from 'react';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-import BabylonScene from '../3DCuboid';
-import axios from 'axios';
-import './MapComponent.css';
+import React, { useRef, useState } from "react";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import BabylonScene from "../3DCuboid";
+import axios from "axios";
+import "./MapComponent.css";
 
 const MapComponent = () => {
-  const { isLoaded } = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY });
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  });
   const mapRef = useRef(null);
   const [textureUrl, setTextureUrl] = useState(null);
   const userEmail = localStorage.getItem("email");
@@ -26,12 +28,12 @@ const MapComponent = () => {
       try {
         // Fetch the image as a Blob
         const response = await fetch(imageUrl);
-        const blob = await response.blob();
+        const blob = await response.blob(); //file like data having raw data
         const objectURL = URL.createObjectURL(blob);
 
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = 'captured-map.png'; 
+        link.download = "captured-map.png";
 
         document.body.appendChild(link);
         link.click();
@@ -40,18 +42,17 @@ const MapComponent = () => {
         document.body.removeChild(link);
         URL.revokeObjectURL(link.href);
 
-        console.log("objecturl: "+ objectURL);
-        setTextureUrl(objectURL); 
+        console.log("objecturl: " + objectURL);
+        setTextureUrl(objectURL);
 
         await axios.post(`${process.env.REACT_APP_API_URL}/map/save`, {
           imageUrl,
           coordinates: { lat, lng },
           zoom,
-          email: userEmail 
+          email: userEmail,
         });
-
       } catch (error) {
-        console.error('Failed to capture the map image', error);
+        console.error("Failed to capture the map image", error);
       }
     }
   };
@@ -60,13 +61,15 @@ const MapComponent = () => {
     <div className="container">
       <h2 className="heading">3D Conversion Page</h2>
       <div className="button-container">
-        <button onClick={captureMap} className="action-button">Capture Map</button>
+        <button onClick={captureMap} className="action-button">
+          Capture Map
+        </button>
       </div>
       <div className="content-container">
         <div className="map-container">
           <GoogleMap
             onLoad={onLoad}
-            mapContainerStyle={{ width: '100%', height: '100%' }}
+            mapContainerStyle={{ width: "100%", height: "100%" }}
             center={{ lat: -34.397, lng: 150.644 }}
             zoom={8}
           >
@@ -78,7 +81,9 @@ const MapComponent = () => {
         </div>
       </div>
     </div>
-  ) : <div>Loading...</div>;
+  ) : (
+    <div>Loading...</div>
+  );
 };
 
 export default MapComponent;

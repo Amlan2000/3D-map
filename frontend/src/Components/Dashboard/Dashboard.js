@@ -1,5 +1,5 @@
 import React from 'react'
-import SnaptrudeLogo from "../Images/snap.svg"
+import HomeLogo from "../Images/homepage.webp"
 import "./Dashboard.css"; // Import the CSS file
 
 
@@ -8,7 +8,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
         <img
-        src={SnaptrudeLogo}
+        src={HomeLogo}
         alt="Snaptrude Logo"
         className="snaptrude-logo"
       />

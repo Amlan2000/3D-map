@@ -10,7 +10,7 @@ const Login = () => {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false); 
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -22,7 +22,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true
+    setLoading(true);
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
@@ -33,14 +33,13 @@ const Login = () => {
         body: JSON.stringify(formData)
       });
 
-      // Check if login was successful (status code 200 or another)
+      // Check if login was successful
       if (response.ok) {
         const result = await response.json();
         localStorage.setItem("token", result.token);
-        localStorage.setItem("email", formData.email); // Save the email in local storage
+        localStorage.setItem("email", formData.email); 
         navigate("/map");
       } else {
-        // Handle invalid credentials or other errors
         const errorData = await response.json();
         setErrorMessage(errorData.message || "Login failed");
       }
@@ -49,7 +48,7 @@ const Login = () => {
       console.log(error.message);
       setErrorMessage("An error occurred while logging in.");
     } finally {
-      setLoading(false); // Set loading to false
+      setLoading(false);
       setFormData({
         email: "",
         password: ""
